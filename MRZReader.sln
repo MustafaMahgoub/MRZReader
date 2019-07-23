@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Core", "MRZReader.Core\MRZReader.Core.csproj", "{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Core.Test", "MRZReader.Core.Test\MRZReader.Core.Test.csproj", "{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
