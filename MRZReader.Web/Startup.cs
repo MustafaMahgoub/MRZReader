@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using MRZReader.Core.ReaderHandlers;
 using System.Reflection;
+using MRZReader.Core;
 
 namespace MRZReader.Web
 {
@@ -25,6 +26,10 @@ namespace MRZReader.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
+
+            services.AddOptions();
+            services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
