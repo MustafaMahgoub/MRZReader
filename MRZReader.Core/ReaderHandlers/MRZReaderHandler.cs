@@ -12,7 +12,6 @@ namespace MRZReader.Core.ReaderHandlers
         private readonly ILogger<MRZReaderHandler> _logger;
         private CloudOcrSettings _cloudOcrSettings;
         private string _outputFileName;
-
         private string _outputFilePath;
 
         public MRZReaderHandler(ILoggerFactory loggerFactory, IOptions<CloudOcrSettings> settings)
