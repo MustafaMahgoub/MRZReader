@@ -1,12 +1,15 @@
 ﻿using Abbyy.CloudOcrSdk;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.IO;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MRZReader.Core.ReaderHandlers
 {
-    public class MRZReaderHandler
+    public class MRZReaderHandler : RequestHandler<MrzDocumentRequest>
     {
         private RestServiceClient restClient;
         private readonly ILogger<MRZReaderHandler> _logger;
@@ -19,7 +22,6 @@ namespace MRZReader.Core.ReaderHandlers
             _logger = loggerFactory.CreateLogger<MRZReaderHandler>();
             PopulateCloudOcrSettingsSettings(settings);
         }
-
         public void PopulateCloudOcrSettingsSettings(IOptions<CloudOcrSettings> settings)
         {
             restClient = new RestServiceClient();
@@ -28,11 +30,11 @@ namespace MRZReader.Core.ReaderHandlers
             restClient.ApplicationId = _cloudOcrSettings.ApplicationId;
             restClient.Password = _cloudOcrSettings.Password; 
         }
-        public void Handle(string sourceFilePath)
+        protected override void Handle(MrzDocumentRequest request)
         {
-            PopulateOutputFileName(sourceFilePath);
-            PopulateOutputFilePath(sourceFilePath);
-            ProcessMrz(sourceFilePath);
+            PopulateOutputFileName(request.SourceFilePath);
+            PopulateOutputFilePath(request.SourceFilePath);
+            ProcessMrz(request.SourceFilePath);
         }
         private void PopulateOutputFileName(string sourceFilePath)
         {
@@ -50,7 +52,7 @@ namespace MRZReader.Core.ReaderHandlers
         }
         public void WaitAndDownload(OcrSdkTask task)
         {
-            if (task.Status == TaskStatus.Completed)
+            if (task.Status == Abbyy.CloudOcrSdk.TaskStatus.Completed)
             {
                 // Log
                 restClient.DownloadResult(task, _outputFilePath);
