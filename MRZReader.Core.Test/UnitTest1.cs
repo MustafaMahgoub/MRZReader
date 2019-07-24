@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MRZReader.Core.ReaderHandlers;
 
 namespace MRZReader.Core.Test
 {
@@ -8,6 +9,13 @@ namespace MRZReader.Core.Test
         [TestMethod]
         public void TestMethod1()
         {
+            //ILoggerFactory loggerFactory, 
+            
+            //IOptions<CloudOcrSettings > settings
+
+
+
+            //MRZReaderHandler reader=new MRZReaderHandler();
         }
     }
 }
