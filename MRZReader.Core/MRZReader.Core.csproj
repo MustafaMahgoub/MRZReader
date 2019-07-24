@@ -4,4 +4,18 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AbbyyOnlineSdk">
+      <HintPath>..\..\DubaiMRZ\MRZReader\MRZReader\Dependencies\AbbyyOnlineSdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
