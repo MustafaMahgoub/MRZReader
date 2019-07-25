@@ -1,0 +1,32 @@
+﻿@model MRZReader.Web.ViewModels.DocumentViewModel
+@{
+    ViewData["Title"] = "Upload Document";
+}
+<form enctype="multipart/form-data" asp-controller="home" asp-action="Upload" method="post">
+<div class="text-left">
+    <h1 class="display-4">Upload</h1>
+    <br />
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button class="input-group-text" type="submit">Upload File</button>
+        </div>
+        <div class="custom-file">
+            <input asp-for="Document" class="form-control custom-file-input">
+            <label class="custom-file-label">Choose File..</label>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('.custom-file-input').on("change", function() {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+                }
+            );
+        });
+    </script>
+}
+</form>

@@ -19,4 +19,10 @@
     <ProjectReference Include="..\MRZReader.Core\MRZReader.Core.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Documents\Dest\" />
+    <Folder Include="wwwroot\Documents\Src\" />
+  </ItemGroup>
+
 </Project>
