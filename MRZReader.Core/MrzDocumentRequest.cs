@@ -9,4 +9,12 @@ namespace MRZReader.Core
     {
         public string SourceFilePath { get; set; }
     }
+
+
+    public class TestDocument
+    {
+        public int Id{ get; set; }
+        public string Extension { get; set; }
+        public string SourceFilePath { get; set; }
+    }
 }

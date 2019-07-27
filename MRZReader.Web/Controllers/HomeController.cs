@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MRZReader.Core;
+using MRZReader.Core.Interfaces;
+using MRZReader.Dal;
 using MRZReader.Web.Models;
 using MRZReader.Web.ViewModels;
 
@@ -16,14 +19,17 @@ namespace MRZReader.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IDocumentRepository _repository;
+
         private readonly IMediator _mediator;
         static HttpClient client = new HttpClient();
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public HomeController(IMediator mediator, IHostingEnvironment hostingEnvironment)
+        public HomeController(IMediator mediator, IHostingEnvironment hostingEnvironment, IDocumentRepository repository)
         {
             _mediator = mediator;
             _hostingEnvironment = hostingEnvironment;
+            _repository = repository;
         }
         public IActionResult Index()
         {
@@ -32,7 +38,16 @@ namespace MRZReader.Web.Controllers
         [HttpGet]
         public IActionResult Upload()
         {
-            return View();
+            try
+            {
+                _repository.Add(new TestDocument());
+                return RedirectToAction("Success", new { id = 10 });
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+            
         }
         [HttpPost]
         public async Task<IActionResult> Upload(DocumentViewModel model)

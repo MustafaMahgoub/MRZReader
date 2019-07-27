@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MRZReader.Core\MRZReader.Core.csproj" />
+    <ProjectReference Include="..\MRZReader.Dal\MRZReader.Dal.csproj" />
   </ItemGroup>
 
 
