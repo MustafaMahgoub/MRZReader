@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
-using MRZReader.Core.ReaderHandlers;
+using MRZReader.Core;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using MRZReader.Core;
-using MRZReader.Core.Interfaces;
 using MRZReader.Dal;
+using System.Net.Http.Headers;
 
 namespace MRZReader.Web
 {
@@ -28,17 +23,26 @@ namespace MRZReader.Web
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
+            services.AddHttpClient("GitHubClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44381/");
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
             services.AddDbContextPool<MrzReaderDbContext>(
                 options=>options.
                     UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
-            
-            
 
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
             services.AddOptions();
             services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
+            services.Configure<DocumentStorageSettings>(Configuration.GetSection("DocumentStorageSettings"));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

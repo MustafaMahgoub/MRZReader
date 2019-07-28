@@ -10,4 +10,13 @@ namespace MRZReader.Core
         public string Password { get; set; } //"6kK8tZ9ystP+ZnOcmqucxm25 ";
         public string OutputPath { get; set; }
     }
+
+
+    public class DocumentStorageSettings
+    {
+        public string OutputFilePath { get; set; }
+        public string SourceFilePath { get; set; }
+    }
+
+
 }

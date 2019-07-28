@@ -8,6 +8,7 @@ namespace MRZReader.Core
     public class MrzDocumentRequest : IRequest
     {
         public string SourceFilePath { get; set; }
+        public string OutputFilePath { get; set; }
     }
     public class Document
     {

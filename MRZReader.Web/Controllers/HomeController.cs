@@ -9,27 +9,28 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MRZReader.Core;
-using MRZReader.Core.Interfaces;
+using MRZReader.Core;
 using MRZReader.Dal;
-using MRZReader.Web.Models;
+using System.IO;
 using MRZReader.Web.ViewModels;
 
 namespace MRZReader.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IDocumentRepository _repository;
-
         private readonly IMediator _mediator;
-        static HttpClient client = new HttpClient();
+        private readonly IHttpClientFactory _HttpClientFactory;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly DocumentStorageSettings _documentStorageSettings;
 
-        public HomeController(IMediator mediator, IHostingEnvironment hostingEnvironment, IDocumentRepository repository)
+        public HomeController(IMediator mediator, IHostingEnvironment hostingEnvironment, IOptions<DocumentStorageSettings> documentStorageSettings, IHttpClientFactory httpClientFactory)
         {
             _mediator = mediator;
             _hostingEnvironment = hostingEnvironment;
-            _repository = repository;
+            _documentStorageSettings = documentStorageSettings.Value;
+            _HttpClientFactory = httpClientFactory;
         }
         public IActionResult Index()
         {
@@ -38,48 +39,81 @@ namespace MRZReader.Web.Controllers
         [HttpGet]
         public IActionResult Upload()
         {
-            try
-            {
-                _repository.Add(new Document());
-                return RedirectToAction("Success", new { id = 10 });
-            }
-            catch (Exception e)
-            {
-                return View();
-            }
-            
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Upload(DocumentViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string fileName = null;
-                if (model.Document != null)
+                if (ModelState.IsValid)
                 {
-                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "Documents\\Src");
+                    //string fileName = null;
+                    if (model.Document != null)
+                    {
+                        //var rootFolder = UploadDocument(model, out fileName);
 
-                    // Make sure the file name is unique, otherwise if we upload the same file, it will override the existing one.
-                    fileName = Guid.NewGuid().ToString() + "_" + model.Document.FileName;
+                        var _uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.SourceFilePath);
 
-                    string filePath=Path.Combine(uploadsFolder, fileName);
-                    model.Document.CopyTo(new FileStream(filePath,FileMode.Create));
-                    await PostToApi(filePath);
-                    return RedirectToAction("Success", new {id = 10});
+                        // Make sure the file name is unique, otherwise if we upload the same file, it will override the existing one.
+                        var fileName = Guid.NewGuid().ToString() + "_" + model.Document.FileName;
+                        string sourceFilePath = Path.Combine(_uploadsFolder, fileName);
+
+                        //Create the document.
+                        using (FileStream fileStream = System.IO.File.Create(sourceFilePath))
+                        {
+                            model.Document.CopyTo(fileStream);
+                        }
+                        if (fileName == null)
+                        {
+                            // Delete the file, Just in case if the file was uploaded
+                            DeleteDocument(fileName);
+                            return RedirectToAction("Error", new { message = "Something went wrong, please try again" });
+                        }
+                        var outputFilePath = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.OutputFilePath);
+                        var response = await PostToApi(sourceFilePath, outputFilePath);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Success", new { id = 10 });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Error", new { message = "Error"});
+                        }
+                    }
+                }
+                return View();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", new { message = e.Message });
+            }
+        }
+        private void DeleteDocument(string fileName)
+        {
+            try
+            {
+                if (System.IO.File.Exists(Path.Combine(_documentStorageSettings.OutputFilePath, fileName)))
+                {
+                    // If file found, delete it    
+                    System.IO.File.Delete(Path.Combine(_documentStorageSettings.OutputFilePath, fileName));
                 }
             }
-            return View();
-        }
-        private static async Task PostToApi(string filePath)
-        {
-            client.BaseAddress = new Uri("https://localhost:44381/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            Core.MrzDocumentRequest request = new Core.MrzDocumentRequest()
+            catch (IOException e)
             {
-                SourceFilePath = filePath
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        private async Task<HttpResponseMessage> PostToApi(string sourceFilePath, string outputFilePath)
+        {
+            MrzDocumentRequest request = new MrzDocumentRequest()
+            {
+                SourceFilePath = sourceFilePath,
+                OutputFilePath = outputFilePath
             };
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/MrzReader", request);
+            var client = _HttpClientFactory.CreateClient("GitHubClient");
+            return await client.PostAsJsonAsync("api/MrzReader", request); 
         }
         public IActionResult Error()
         {
@@ -89,6 +123,5 @@ namespace MRZReader.Web.Controllers
         {
             return View();
         }
-
     }
 }
