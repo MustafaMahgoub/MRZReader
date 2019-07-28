@@ -24,25 +24,20 @@ namespace MRZReader.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-
-            services.AddHttpClient("GitHubClient", client =>
+            services.AddHttpClient("MRZClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44381/");
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-
             services.AddDbContextPool<MrzReaderDbContext>(
                 options=>options.
                     UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
-
             services.AddScoped<IDocumentRepository, DocumentRepository>();
-
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
             services.AddOptions();
             services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
             services.Configure<DocumentStorageSettings>(Configuration.GetSection("DocumentStorageSettings"));
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -60,14 +55,11 @@ namespace MRZReader.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
