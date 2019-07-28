@@ -6,6 +6,6 @@ namespace MRZReader.Core.Interfaces
 {
     public interface IDocumentRepository
     {
-        TestDocument Add(TestDocument testDocument);
+        Document Add(Document Document);
     }
 }

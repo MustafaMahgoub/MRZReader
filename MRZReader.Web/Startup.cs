@@ -33,6 +33,8 @@ namespace MRZReader.Web
                     UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
+            
+            
 
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
             services.AddOptions();

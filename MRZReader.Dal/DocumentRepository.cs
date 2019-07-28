@@ -14,16 +14,25 @@ namespace MRZReader.Dal
         {
             this._context = context;
         }
-        public TestDocument Add(TestDocument testDocument)
+        public Document Add(Document testDocument)
         {
-            testDocument = new TestDocument()
+            try
             {
-                SourceFilePath = "TestLocation",
-                Extension = "txt"
-            };
-            _context.Documents.Add(testDocument);
-            _context.SaveChanges();
-            return testDocument;
+                var doc = this._context.Document;
+                testDocument = new Document()
+                {
+                    DocumentLocation = "TestLocation",
+                    DocumentExtension = "txt"
+                };
+                this._context.Document.Add(testDocument);
+                _context.SaveChanges();
+                return testDocument;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

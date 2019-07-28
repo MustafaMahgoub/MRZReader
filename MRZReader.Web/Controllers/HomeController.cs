@@ -40,7 +40,7 @@ namespace MRZReader.Web.Controllers
         {
             try
             {
-                _repository.Add(new TestDocument());
+                _repository.Add(new Document());
                 return RedirectToAction("Success", new { id = 10 });
             }
             catch (Exception e)

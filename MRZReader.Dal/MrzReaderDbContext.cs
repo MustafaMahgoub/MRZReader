@@ -13,8 +13,10 @@ namespace MRZReader.Dal
         {
             
         }
-        public DbSet<TestDocument> Documents { get; set; }
+        public DbSet<MRZReader.Core.Document> Document { get; set; }
     }
+
+
 
     
 }
