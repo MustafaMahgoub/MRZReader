@@ -9,6 +9,7 @@ namespace MRZReader.Dal
 
     public class MrzReaderDbContext : DbContext
     {
+        // Testing the ExceptionAndTesting Branch
         public MrzReaderDbContext(DbContextOptions<MrzReaderDbContext> options): base(options)
         {
             
