@@ -50,6 +50,7 @@ namespace MRZReader.Core
             //// Make sure the file name is unique, otherwise if we upload the same file, it will override the existing one.
             if (request.ShouldContinue)
                 request.FileUniqueName = Guid.NewGuid().ToString() + "_" + request.DocumentName;
+
             return request;
         }
         internal MrzDocumentRequest UploadFile(MrzDocumentRequest request)
@@ -68,11 +69,8 @@ namespace MRZReader.Core
         internal MrzDocumentRequest PopulateSourceFilePath(MrzDocumentRequest request)
         {
             if (request.ShouldContinue)
-            {
-                //var fileWithoutExtension = Path.GetFileNameWithoutExtension($"{request.SourceFolder}\\{request.FileUniqueName}");
-                //var _sourceFilePath = $"{request.SourceFolder}\\{fileWithoutExtension}.xml";
-                request.SourceFilePath = $"{request.SourceFolder}\\{request.FileUniqueName}"; //_sourceFilePath;
-            }
+                request.SourceFilePath = $"{request.SourceFolder}\\{request.FileUniqueName}";
+
             return request;
         }
         internal MrzDocumentRequest PopulateOutputFilePath(MrzDocumentRequest request)
@@ -98,8 +96,6 @@ namespace MRZReader.Core
         {
             try
             {
-                //var _sourceFilePath = $"{request.SourceFolder}\\{request.FileUniqueName}";
-                //OcrSdkTask task = restClient.ProcessMrz(_sourceFilePath);
                 OcrSdkTask task = restClient.ProcessMrz(request.SourceFilePath);
                 WaitAndDownload(task, request);
             }
@@ -115,9 +111,6 @@ namespace MRZReader.Core
 
             if (task.Status == Abbyy.CloudOcrSdk.TaskStatus.Completed)
             {
-                //var file = Path.GetFileNameWithoutExtension($"{request.DestinationFolder}\\{request.FileUniqueName}");
-                //var _outputFilePath = $"{file}.xml";
-
                 _logger.LogTrace("Processing completed.");
                 restClient.DownloadResult(task, request.OutputFilePath);
                 _logger.LogTrace("Download completed.");
