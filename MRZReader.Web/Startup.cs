@@ -11,7 +11,9 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MRZReader.Dal;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace MRZReader.Web
 {
@@ -57,7 +59,15 @@ namespace MRZReader.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc(
+                // To apply authorization globally
+                //options =>
+                //{
+                // var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                //  options.Filters.Add(new AuthorizeFilter(policy));
+                //}
+                ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

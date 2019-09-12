@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using MRZReader.Web.ViewModels;
 
 namespace MRZReader.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IMediator _mediator;
@@ -33,17 +35,21 @@ namespace MRZReader.Web.Controllers
             _HttpClientFactory = httpClientFactory;
             _logger = loggerFactory.CreateLogger(nameof(HomeController));
         }
+
+        [AllowAnonymous]
         public IActionResult Index()
         {
             _logger.LogInformation($"Index Called");
             return View();
         }
+
         [HttpGet]
         public IActionResult Upload()
         {
             _logger.LogInformation($"Upload Called");
             return View();
         }
+
         public async Task<IActionResult> Upload(DocumentViewModel model)
         {
             try
@@ -75,11 +81,11 @@ namespace MRZReader.Web.Controllers
                 return RedirectToAction("Error", new { message = e.Message });
             }
         }
-        public IActionResult Error()
+        public IActionResult Success()
         {
             return View();
         }
-        public IActionResult Success()
+        public IActionResult Error()
         {
             return View();
         }
