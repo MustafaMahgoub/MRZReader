@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MRZReader.Core;
 using MRZReader.Core;
 
 namespace MRZReader.Dal

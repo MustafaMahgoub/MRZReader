@@ -3,63 +3,63 @@
     <value>2line</value>
   </field>
   <field type="Line1">
-    <value>PG88UKSPEC1818&lt;&lt;AH01LA&lt;2O1&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</value>
+    <value>&lt;GBEUK&lt;SPECIREM&lt;&lt;AHGELA&lt;Z0E&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</value>
+  </field>
+  <field type="Line2">
+    <value>5334013720G8E88120402303286&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;00</value>
+  </field>
+  <field type="Checksum">
+    <value>0</value>
+  </field>
+  <field type="ChecksumVerified">
+    <value>false</value>
   </field>
   <field type="DocumentType">
-    <value>P</value>
+    <value>&lt;</value>
   </field>
   <field type="DocumentSubtype">
     <value>G</value>
   </field>
   <field type="IssuingCountry">
-    <value>88U</value>
+    <value>BEU</value>
   </field>
   <field type="LastName">
-    <value>KSPEC1818</value>
+    <value>K SPECIREM</value>
   </field>
   <field type="GivenName">
-    <value>AH01LA 2O1</value>
-  </field>
-  <field type="Line2">
-    <value>333401372008888120492309286&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;00</value>
+    <value>AHGELA Z0E</value>
   </field>
   <field type="DocumentNumber">
-    <value>333401372</value>
+    <value>533401372</value>
   </field>
   <field type="DocumentNumberVerified">
-    <value>false</value>
+    <value>true</value>
   </field>
   <field type="DocumentNumberCheck">
     <value>0</value>
   </field>
   <field type="Nationality">
-    <value>088</value>
+    <value>G8E</value>
   </field>
   <field type="BirthDate">
     <value>881204</value>
   </field>
   <field type="BirthDateVerified">
-    <value>true</value>
+    <value>false</value>
   </field>
   <field type="BirthDateCheck">
-    <value>9</value>
+    <value>0</value>
   </field>
   <field type="Sex">
     <value>2</value>
   </field>
   <field type="ExpiryDate">
-    <value>309286</value>
+    <value>303286</value>
   </field>
   <field type="ExpiryDateVerified">
     <value>false</value>
   </field>
   <field type="ExpiryDateCheck">
     <value>&lt;</value>
-  </field>
-  <field type="ChecksumVerified">
-    <value>false</value>
-  </field>
-  <field type="Checksum">
-    <value>0</value>
   </field>
 </document>
