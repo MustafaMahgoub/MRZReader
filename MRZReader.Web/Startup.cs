@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MRZReader.Dal;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Identity;
 
 namespace MRZReader.Web
 {
@@ -23,6 +24,9 @@ namespace MRZReader.Web
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<MrzReaderDbContext>();
+
+
             services.AddHttpClient();
             services.AddHttpClient("MRZClient", client =>
             {
@@ -60,6 +64,9 @@ namespace MRZReader.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

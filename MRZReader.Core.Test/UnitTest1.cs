@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MRZReader.Core.ReaderHandlers;
+using MRZReader.Core;
 
 namespace MRZReader.Core.Test
 {
