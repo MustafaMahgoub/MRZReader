@@ -26,6 +26,15 @@ namespace MRZReader.Web
         {
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<MrzReaderDbContext>();
 
+            // Custome password if needed
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequiredLength = 10;
+            //    options.Password.RequiredUniqueChars = 3;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireDigit = false;
+            //});
+
 
             services.AddHttpClient();
             services.AddHttpClient("MRZClient", client =>
