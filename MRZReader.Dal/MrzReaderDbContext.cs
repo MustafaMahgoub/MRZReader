@@ -14,17 +14,7 @@ namespace MRZReader.Dal
         {
             
         }
-        public DbSet<MRZReader.Core.Document> Document { get; set; }
-        
-        //protected override void OnModelCreating(ModelBuilder builder)
-        ////protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(builder);
-        //    builder.Seed();
-        //}
+        public DbSet<Document> Document { get; set; }
+        public DbSet<User> User { get; set; }
     }
-
-
-
-    
 }

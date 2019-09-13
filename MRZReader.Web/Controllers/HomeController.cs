@@ -63,14 +63,21 @@ namespace MRZReader.Web.Controllers
                     {
                         var _sourceFilePath = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.SourceFilePath);
                         var _outputFilePath = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.OutputFilePath);
-                        await _mediator.Send(new MrzDocumentRequest()
+
+                        DocumentRequest request = new DocumentRequest()
                         {
                             SourceFolder = _sourceFilePath,
                             DestinationFolder = _outputFilePath,
-                            Document = model.Document,
+                            OriginalFile = model.Document,
                             ShouldContinue = true
-                        });
-                        return RedirectToAction("Success");
+                        };
+                        await _mediator.Send(request);
+
+                        if (request.IsSuccessed)
+                        {
+                            return RedirectToAction("Success");
+                        }
+                        return RedirectToAction("Error");
                     }
                 }
                 return View();
@@ -78,7 +85,7 @@ namespace MRZReader.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogInformation($"Exception {e.Message}");
-                return RedirectToAction("Error", new { message = e.Message });
+                return RedirectToAction("Error");
             }
         }
         public IActionResult Success()

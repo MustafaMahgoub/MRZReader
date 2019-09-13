@@ -8,44 +8,59 @@ using System.Net;
 
 namespace MRZReader.Core
 {
-    public class MRZReaderHandler : RequestHandler<MrzDocumentRequest>
+    public class MRZReaderHandler : RequestHandler<DocumentRequest>
     {
-        private RestServiceClient restClient;
+        private readonly IDataExtractor _dataExtractor;
+        private RestServiceClient _restClient;
         private readonly ILogger<MRZReaderHandler> _logger;
         private CloudOcrSettings _cloudOcrSettings;
         private readonly IDocumentRepository _documentRepository;
-        public MRZReaderHandler(ILoggerFactory loggerFactory, IDocumentRepository documentRepository, IOptions<CloudOcrSettings> settings)
+
+        public MRZReaderHandler(
+            ILoggerFactory loggerFactory,
+            IDocumentRepository documentRepository, 
+            IOptions<CloudOcrSettings> settings,
+            IDataExtractor dataExtractor)
         {
             _logger = loggerFactory.CreateLogger<MRZReaderHandler>();
             _documentRepository = documentRepository;
             PopulateCloudOcrSettingsSettings(settings);
+            _dataExtractor = dataExtractor;
         }
         public void PopulateCloudOcrSettingsSettings(IOptions<CloudOcrSettings> settings)
         {
-            restClient = new RestServiceClient();
-            restClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            _restClient = new RestServiceClient();
+            _restClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
             _cloudOcrSettings = settings.Value;
-            restClient.ApplicationId = _cloudOcrSettings.ApplicationId;
-            restClient.Password = _cloudOcrSettings.Password;
+            _restClient.ApplicationId = _cloudOcrSettings.ApplicationId;
+            _restClient.Password = _cloudOcrSettings.Password;
         }
-        protected override void Handle(MrzDocumentRequest request)
+        protected override void Handle(DocumentRequest request)
         {
-            PopulatDocumentName(request);
-            PopulateFileUniqueName(request);
-            UploadFile(request);
-            PopulateSourceFilePath(request);
-            PopulateOutputFilePath(request);
-            PersistSourceFileInfoInDatabase(request);
-            ProcessMrz(request);
+            try
+            {
+                PopulatDocumentName(request);
+                PopulateFileUniqueName(request);
+                UploadFile(request);
+                PopulateSourceFilePath(request);
+                PopulateOutputFilePath(request);
+                ProcessMrz(request);
+                ExtractDataFromXml(request);
+                PersistSourceFileInfoInDatabase(request);
+            }
+            catch (Exception e)
+            {
+                request.IsSuccessed = false;
+            }
         }
-        internal MrzDocumentRequest PopulatDocumentName(MrzDocumentRequest request)
+        internal DocumentRequest PopulatDocumentName(DocumentRequest request)
         {
             if (request.ShouldContinue)
-                request.DocumentName = request.Document.FileName;
+                request.DocumentName = request.OriginalFile.FileName;
 
             return request;
         }
-        internal MrzDocumentRequest PopulateFileUniqueName(MrzDocumentRequest request)
+        internal DocumentRequest PopulateFileUniqueName(DocumentRequest request)
         {
             //// Make sure the file name is unique, otherwise if we upload the same file, it will override the existing one.
             if (request.ShouldContinue)
@@ -53,7 +68,7 @@ namespace MRZReader.Core
 
             return request;
         }
-        internal MrzDocumentRequest UploadFile(MrzDocumentRequest request)
+        internal DocumentRequest UploadFile(DocumentRequest request)
         {
             if (request.ShouldContinue)
             {
@@ -61,19 +76,19 @@ namespace MRZReader.Core
                 string sourceFile = Path.Combine(request.SourceFolder, request.FileUniqueName);
                 using (FileStream fileStream = System.IO.File.Create(sourceFile))
                 {
-                    request.Document.CopyTo(fileStream);
+                    request.OriginalFile.CopyTo(fileStream);
                 }
             }
             return request;
         }
-        internal MrzDocumentRequest PopulateSourceFilePath(MrzDocumentRequest request)
+        internal DocumentRequest PopulateSourceFilePath(DocumentRequest request)
         {
             if (request.ShouldContinue)
                 request.SourceFilePath = $"{request.SourceFolder}\\{request.FileUniqueName}";
 
             return request;
         }
-        internal MrzDocumentRequest PopulateOutputFilePath(MrzDocumentRequest request)
+        internal DocumentRequest PopulateOutputFilePath(DocumentRequest request)
         {
             if (request.ShouldContinue)
             {
@@ -83,42 +98,33 @@ namespace MRZReader.Core
             }
             return request;
         }
-        internal MrzDocumentRequest PersistSourceFileInfoInDatabase(MrzDocumentRequest request)
+        internal DocumentRequest ExtractDataFromXml(DocumentRequest request)
         {
-            _documentRepository.Add(new Document()
-            {
-                DocumentExtension = "xml",
-                DocumentLocation = request.OutputFilePath
-            });
-            return request;
+            return _dataExtractor.Extract(request);
         }
-        internal void ProcessMrz(MrzDocumentRequest request)
+        internal DocumentRequest ProcessMrz(DocumentRequest request)
         {
             try
             {
-                OcrSdkTask task = restClient.ProcessMrz(request.SourceFilePath);
+                OcrSdkTask task = _restClient.ProcessMrz(request.SourceFilePath);
                 WaitAndDownload(task, request);
             }
             catch (Exception e)
             {
                 _logger.LogTrace($"{e.Message}");
-                throw;
+                request.IsSuccessed = false;
             }
+            return request;
         }
-        internal void WaitAndDownload(OcrSdkTask task, MrzDocumentRequest request)
+        internal DocumentRequest WaitAndDownload(OcrSdkTask task, DocumentRequest request)
         {
             task = WaitForTask(task);
-
             if (task.Status == Abbyy.CloudOcrSdk.TaskStatus.Completed)
             {
-                _logger.LogTrace("Processing completed.");
-                restClient.DownloadResult(task, request.OutputFilePath);
-                _logger.LogTrace("Download completed.");
+                _restClient.DownloadResult(task, request.OutputFilePath);
+                request.IsSuccessed = true;
             }
-            else
-            {
-                _logger.LogTrace("Error while processing the task");
-            }
+            return request;
         }
         internal OcrSdkTask WaitForTask(OcrSdkTask task)
         {
@@ -126,10 +132,23 @@ namespace MRZReader.Core
             while (task.IsTaskActive())
             {
                 System.Threading.Thread.Sleep(5000);
-                task = restClient.GetTaskStatus(task.Id);
+                task = _restClient.GetTaskStatus(task.Id);
                 _logger.LogTrace(string.Format("Task status: {0}", task.Status));
             }
             return task;
+        }
+        internal DocumentRequest PersistSourceFileInfoInDatabase(DocumentRequest request)
+        {
+            if (!request.IsSuccessed)
+                return request;
+
+            if (request.Document == null || request.Document?.User == null)
+            {
+                request.IsSuccessed = false;
+                return request;
+            }
+            _documentRepository.Add(request);
+            return request;
         }
     }
 }

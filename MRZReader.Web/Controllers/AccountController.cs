@@ -14,8 +14,8 @@ namespace MRZReader.Web.Controllers
 
         public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> singInManager)
         {
-            this._userManager = userManager;
-            this._signInManager = singInManager;
+            _userManager = userManager;
+            _signInManager = singInManager;
         }
         
         #region Register

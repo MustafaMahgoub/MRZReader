@@ -5,6 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190912205750_AddingIdentity.cs" />
+    <Compile Remove="Migrations\20190912205750_AddingIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20190913201733_AddingNationalty.cs" />
+    <Compile Remove="Migrations\20190913201733_AddingNationalty.Designer.cs" />
+    <Compile Remove="Migrations\20190913201836_AddingDocProperties.cs" />
+    <Compile Remove="Migrations\20190913201836_AddingDocProperties.Designer.cs" />
+    <Compile Remove="Migrations\20190913202000_AddingChecksumVerifiedNullable.cs" />
+    <Compile Remove="Migrations\20190913202000_AddingChecksumVerifiedNullable.Designer.cs" />
+    <Compile Remove="Migrations\20190913202326_UpdatingDocEntity.cs" />
+    <Compile Remove="Migrations\20190913202326_UpdatingDocEntity.Designer.cs" />
+    <Compile Remove="Migrations\20190913202459_UpdatingDocEntity2.cs" />
+    <Compile Remove="Migrations\20190913202459_UpdatingDocEntity2.Designer.cs" />
+    <Compile Remove="Migrations\20190913202647_AddingUserEntity.cs" />
+    <Compile Remove="Migrations\20190913202647_AddingUserEntity.Designer.cs" />
+    <Compile Remove="Migrations\20190913202749_AddingUserEntity1.cs" />
+    <Compile Remove="Migrations\20190913202749_AddingUserEntity1.Designer.cs" />
+    <Compile Remove="Migrations\20190913202856_AddingUserEntity2.cs" />
+    <Compile Remove="Migrations\20190913202856_AddingUserEntity2.Designer.cs" />
+    <Compile Remove="Migrations\20190913203001_AddingUserEntity3.cs" />
+    <Compile Remove="Migrations\20190913203001_AddingUserEntity3.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
   </ItemGroup>

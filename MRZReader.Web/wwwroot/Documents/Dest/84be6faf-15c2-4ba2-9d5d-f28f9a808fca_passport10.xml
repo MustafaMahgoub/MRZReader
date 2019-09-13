@@ -1,0 +1,74 @@
+﻿<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ocrsdk.com/schema/captureData-1.0.xsd http://ocrsdk.com/schema/captureData-1.0.xsd" type="mrz" xmlns="http://ocrsdk.com/schema/captureData-1.0.xsd">
+  <field type="MrzType">
+    <value>2line</value>
+  </field>
+  <field type="Line1">
+    <value>RYT0ERIKSS0N&lt;&lt;ANNA&lt;HARIA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</value>
+  </field>
+  <field type="Line2">
+    <value>1898902C&lt;3UT06908061F940823SZE184226B&lt;&lt;&lt;&lt;&lt;14</value>
+  </field>
+  <field type="Checksum">
+    <value>4</value>
+  </field>
+  <field type="ChecksumVerified">
+    <value>true</value>
+  </field>
+  <field type="DocumentType">
+    <value>R</value>
+  </field>
+  <field type="DocumentSubtype">
+    <value>Y</value>
+  </field>
+  <field type="IssuingCountry">
+    <value>T0E</value>
+  </field>
+  <field type="LastName">
+    <value>RIKSS0N</value>
+  </field>
+  <field type="GivenName">
+    <value>ANNA HARIA</value>
+  </field>
+  <field type="DocumentNumber">
+    <value>1898902C</value>
+  </field>
+  <field type="DocumentNumberVerified">
+    <value>true</value>
+  </field>
+  <field type="DocumentNumberCheck">
+    <value>3</value>
+  </field>
+  <field type="Nationality">
+    <value>UT0</value>
+  </field>
+  <field type="BirthDate">
+    <value>690806</value>
+  </field>
+  <field type="BirthDateVerified">
+    <value>true</value>
+  </field>
+  <field type="BirthDateCheck">
+    <value>1</value>
+  </field>
+  <field type="Sex">
+    <value>F</value>
+  </field>
+  <field type="ExpiryDate">
+    <value>940823</value>
+  </field>
+  <field type="ExpiryDateVerified">
+    <value>false</value>
+  </field>
+  <field type="ExpiryDateCheck">
+    <value>S</value>
+  </field>
+  <field type="PersonalNumber">
+    <value>ZE184226B</value>
+  </field>
+  <field type="PersonalNumberVerified">
+    <value>true</value>
+  </field>
+  <field type="PersonalNumberCheck">
+    <value>1</value>
+  </field>
+</document>

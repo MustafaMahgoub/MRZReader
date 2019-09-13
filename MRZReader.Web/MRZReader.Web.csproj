@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MRZReader.Core\MRZReader.Core.csproj" />
     <ProjectReference Include="..\MRZReader.Dal\MRZReader.Dal.csproj" />
+    <ProjectReference Include="..\MRZReader.DataExtractor\MRZReader.DataExtractor.csproj" />
   </ItemGroup>
 
 

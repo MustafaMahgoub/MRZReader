@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MRZReader.Dal.Migrations
 {
-    public partial class AddingIdentity : Migration
+    public partial class ResetDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,23 @@ namespace MRZReader.Dal.Migrations
                     DocumentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DocumentExtension = table.Column<string>(nullable: true),
-                    DocumentLocation = table.Column<string>(nullable: true)
+                    DocumentLocation = table.Column<string>(nullable: true),
+                    DocumentOcrId = table.Column<int>(nullable: false),
+                    ReadableLine1 = table.Column<string>(nullable: true),
+                    ReadableLine2 = table.Column<string>(nullable: true),
+                    ReadableLine3 = table.Column<string>(nullable: true),
+                    Checksum = table.Column<string>(nullable: true),
+                    ChecksumVerified = table.Column<bool>(nullable: false),
+                    DocumentType = table.Column<string>(nullable: true),
+                    DocumentSubtype = table.Column<string>(nullable: true),
+                    IssuingCountry = table.Column<string>(nullable: true),
+                    DocumentNumber = table.Column<string>(nullable: true),
+                    DocumentNumberVerified = table.Column<bool>(nullable: false),
+                    DocumentNumberCheck = table.Column<bool>(nullable: false),
+                    ExpiryDate = table.Column<DateTime>(nullable: true),
+                    ExpiryDateCheck = table.Column<bool>(nullable: false),
+                    ExpiryDateVerified = table.Column<bool>(nullable: false),
+                    Nationality = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

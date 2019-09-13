@@ -16,7 +16,7 @@ namespace MRZReader.Web.Controllers
         }
         [Route("")]
         [HttpPost]
-        public async Task<OkObjectResult> Post(MrzDocumentRequest request)
+        public async Task<OkObjectResult> Post(DocumentRequest request)
         {
             return Ok(await _mediator.Send(request));
         }

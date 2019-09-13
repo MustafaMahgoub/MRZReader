@@ -25,13 +25,72 @@ namespace MRZReader.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Checksum");
+
+                    b.Property<bool>("ChecksumVerified");
+
                     b.Property<string>("DocumentExtension");
 
                     b.Property<string>("DocumentLocation");
 
+                    b.Property<string>("DocumentNumber");
+
+                    b.Property<bool>("DocumentNumberCheck");
+
+                    b.Property<bool>("DocumentNumberVerified");
+
+                    b.Property<int>("DocumentOcrId");
+
+                    b.Property<string>("DocumentSubtype");
+
+                    b.Property<string>("DocumentType");
+
+                    b.Property<DateTime?>("ExpiryDate");
+
+                    b.Property<bool>("ExpiryDateCheck");
+
+                    b.Property<bool>("ExpiryDateVerified");
+
+                    b.Property<string>("IssuingCountry");
+
+                    b.Property<string>("Nationality");
+
+                    b.Property<string>("ReadableLine1");
+
+                    b.Property<string>("ReadableLine2");
+
+                    b.Property<string>("ReadableLine3");
+
+                    b.Property<int?>("UserId");
+
                     b.HasKey("DocumentId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("MRZReader.Core.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("BirthDate");
+
+                    b.Property<bool>("BirthDateCheck");
+
+                    b.Property<bool>("BirthDateVerified");
+
+                    b.Property<string>("GivenName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Sex");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -193,6 +252,13 @@ namespace MRZReader.Dal.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MRZReader.Core.Document", b =>
+                {
+                    b.HasOne("MRZReader.Core.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using MRZReader.DataExtractor;
 
 namespace MRZReader.Web
 {
@@ -45,12 +46,13 @@ namespace MRZReader.Web
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-            services.AddDbContextPool<MrzReaderDbContext>(
-                options=>options.
-                    UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
+            services.AddDbContextPool<MrzReaderDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
+
             services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDataExtractor, XmlDataExtractor>();
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
             services.AddOptions();
+
             services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
             services.Configure<DocumentStorageSettings>(Configuration.GetSection("DocumentStorageSettings"));
             services.Configure<CookiePolicyOptions>(options =>
@@ -83,9 +85,7 @@ namespace MRZReader.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

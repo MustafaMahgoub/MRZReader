@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,6 @@ namespace MRZReader.Web
         public static void Main(string[] args)
         {
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-
             try
             {
                 CreateWebHostBuilder(args).Build().Run();

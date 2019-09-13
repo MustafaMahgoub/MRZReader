@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using MRZReader.Core;
 
 namespace MRZReader.Dal
@@ -10,26 +12,30 @@ namespace MRZReader.Dal
 
         public DocumentRepository(MrzReaderDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
-        public Document Add(Document document)
+        public DocumentRequest Add(DocumentRequest request)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                _context.Document.Add(document);
-                _context.SaveChanges();
-                return document;
+                try
+                {
+                    // Purpose of using transaction that we might want to add more things when we storing a document.
+                    _context.Document.Add(request.Document);
+                    _context.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    // No need to roll-back- automatic roll-back if something goes wrong
+                    request.IsSuccessed = false;
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return request;
         }
-
         public IEnumerable<Document> GetAll()
         {
-            return _context.Document;
+           return _context.Document.Include("User").ToList();
         }
     }
 }

@@ -16,4 +16,8 @@
     <ProjectReference Include="..\MRZReader.Core\MRZReader.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="XML\" />
+  </ItemGroup>
+
 </Project>
