@@ -7,11 +7,10 @@ namespace MRZReader.DataExtractor
     {
         public DocumentRequest Extract(DocumentRequest request)
         {
-            var path = request.OutputFilePath;
-            string _lastName = string.Empty;
-            string _givenName = string.Empty;
+            var path = request.Document.TargetFilePath;
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
+
             foreach (XmlNode node in doc.DocumentElement.ChildNodes)
             {
                 string text = node.InnerText;

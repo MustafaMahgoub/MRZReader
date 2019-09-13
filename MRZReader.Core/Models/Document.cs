@@ -6,8 +6,9 @@ namespace MRZReader.Core
     {
         // Primary Key
         public int DocumentId { get; set; }
-        public string DocumentExtension { get; set; }
-        public string DocumentLocation { get; set; }
+        public string FileFullName { get; set; }
+        public string SourceFilePath { get; set; }
+        public string TargetFilePath { get; set; }
         public int DocumentOcrId { get; set; } = 0;
         public string ReadableLine1 { get; set; }
         public string ReadableLine2 { get; set; }
@@ -24,7 +25,6 @@ namespace MRZReader.Core
         public bool ExpiryDateCheck { get; set; } = false;
         public bool ExpiryDateVerified { get; set; } = false;
         public string Nationality { get; set; }// Added to doc table as someone may have two passports with two nationalties
-
         public User User { get; set; } = new User();
         public int UserId { get; set; }
     }

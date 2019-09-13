@@ -1,0 +1,74 @@
+﻿<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ocrsdk.com/schema/captureData-1.0.xsd http://ocrsdk.com/schema/captureData-1.0.xsd" type="mrz" xmlns="http://ocrsdk.com/schema/captureData-1.0.xsd">
+  <field type="MrzType">
+    <value>2line</value>
+  </field>
+  <field type="Line1">
+    <value>P&lt;QATALKAABI&lt;&lt;M&lt;HAMAD&lt;ABDULLAH&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</value>
+  </field>
+  <field type="Line2">
+    <value>00000000&lt;0QAT7103070M110725012345458902&lt;&lt;&lt;78</value>
+  </field>
+  <field type="Checksum">
+    <value>8</value>
+  </field>
+  <field type="ChecksumVerified">
+    <value>true</value>
+  </field>
+  <field type="DocumentType">
+    <value>P</value>
+  </field>
+  <field type="DocumentSubtype">
+    <value>&lt;</value>
+  </field>
+  <field type="IssuingCountry">
+    <value>QAT</value>
+  </field>
+  <field type="LastName">
+    <value>ALKAABI</value>
+  </field>
+  <field type="GivenName">
+    <value>M HAMAD ABDULLAH</value>
+  </field>
+  <field type="DocumentNumber">
+    <value>00000000</value>
+  </field>
+  <field type="DocumentNumberVerified">
+    <value>true</value>
+  </field>
+  <field type="DocumentNumberCheck">
+    <value>0</value>
+  </field>
+  <field type="Nationality">
+    <value>QAT</value>
+  </field>
+  <field type="BirthDate">
+    <value>710307</value>
+  </field>
+  <field type="BirthDateVerified">
+    <value>true</value>
+  </field>
+  <field type="BirthDateCheck">
+    <value>0</value>
+  </field>
+  <field type="Sex">
+    <value>M</value>
+  </field>
+  <field type="ExpiryDate">
+    <value>110725</value>
+  </field>
+  <field type="ExpiryDateVerified">
+    <value>true</value>
+  </field>
+  <field type="ExpiryDateCheck">
+    <value>0</value>
+  </field>
+  <field type="PersonalNumber">
+    <value>12345458902</value>
+  </field>
+  <field type="PersonalNumberVerified">
+    <value>true</value>
+  </field>
+  <field type="PersonalNumberCheck">
+    <value>7</value>
+  </field>
+</document>
