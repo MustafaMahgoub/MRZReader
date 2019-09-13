@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MRZReader.Core;
 
 namespace MRZReader.Dal
@@ -15,13 +16,7 @@ namespace MRZReader.Dal
         {
             try
             {
-                //var doc = this._context.Document;
-                //document = new Document()
-                //{
-                //    DocumentLocation = "TestLocation",
-                //    DocumentExtension = "txt"
-                //};
-                this._context.Document.Add(document);
+                _context.Document.Add(document);
                 _context.SaveChanges();
                 return document;
             }
@@ -30,6 +25,11 @@ namespace MRZReader.Dal
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public IEnumerable<Document> GetAll()
+        {
+            return _context.Document;
         }
     }
 }

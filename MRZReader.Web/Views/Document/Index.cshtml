@@ -1,0 +1,27 @@
+﻿@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model IEnumerable<MRZReader.Core.Document>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Documents & Results</h1>
+
+<table class="table">
+    <tr>
+        <th>DocumentId</th>
+        <th>DocumentExtension</th>
+        <th>DocumentLocation</th>
+        <th>Original Document</th>
+        <th>Results</th>
+    </tr> 
+    @foreach (var doc in Model)
+    {
+        <tr>
+            <td>@doc.DocumentId</td>
+            <td>@doc.DocumentExtension</td>
+            <td>@doc.DocumentLocation</td>
+            <td>Download</td>
+            <td>Download</td>
+        </tr>
+    }
+</table>
