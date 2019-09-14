@@ -56,7 +56,7 @@ namespace MRZReader.Core
         internal DocumentRequest PopulatFileFullName(DocumentRequest request)
         {
             if (request.ShouldContinue)
-                request.Document.FileFullName = "TOMOVE";//request.OriginalFile.FileName;
+                request.Document.FileFullName = request.OriginalFile.FileName;
             return request;
         }
         internal DocumentRequest PopulateFileUniqueName(DocumentRequest request)
@@ -77,14 +77,14 @@ namespace MRZReader.Core
         }
         internal DocumentRequest UploadFile(DocumentRequest request)
         {
-            //if (request.ShouldContinue)
-            //{
-            //    //Create the document.
-            //    using (FileStream fileStream = System.IO.File.Create(request.Document.SourceFilePath))
-            //    {
-            //        request.OriginalFile.CopyTo(fileStream);
-            //    }
-            //}
+            if (request.ShouldContinue)
+            {
+                //Create the document.
+                using (FileStream fileStream = System.IO.File.Create(request.Document.SourceFilePath))
+                {
+                    request.OriginalFile.CopyTo(fileStream);
+                }
+            }
             return request;
         }
         internal DocumentRequest PopulateTargetFilePath(DocumentRequest request)

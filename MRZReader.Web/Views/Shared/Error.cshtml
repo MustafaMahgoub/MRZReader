@@ -1,9 +1,10 @@
-﻿@{
+﻿@model string
+@{
     ViewData["Title"] = "Error";
 }
 <div class="text-center">
     <h1 class="display-3 text-danger">Error!</h1>
-    <h3 class="text-danger lead"><strong>An error occurred while processing your request</strong></h3>
+    <h3 class="text-danger lead"><strong>An error occurred while processing your request : @Model</strong></h3>
     <p>
         View all Documents? <a href="">Documents Home Page</a>
     </p>
