@@ -12,7 +12,7 @@ namespace MRZReader.Core
         public string SourceFolder { get; set; }
         public string DestinationFolder { get; set; }
         public string FileUniqueName { get; set; }
-        public IFormFile OriginalFile { get; set; }
+        //public IFormFile OriginalFile { get; set; }
         public bool ShouldContinue { get; set; }
         public bool IsSuccessed { get; set; }
         public Document Document { get; set; } = new Document();
