@@ -114,8 +114,9 @@ namespace MRZReader.Core
                 OcrSdkTask task = _restClient.ProcessMrz(request.Document.SourceFilePath);
                 WaitAndDownload(task, request);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log($"KO :Exception: {e.Message}", true);
                 request.IsSuccessed = false;
                 throw;
             }

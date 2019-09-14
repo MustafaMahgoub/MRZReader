@@ -29,7 +29,7 @@ namespace MRZReader.Dal
                     _context.SaveChanges();
                     transaction.Commit();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // No need to roll-back- automatic roll-back if something goes wrong
                     request.IsSuccessed = false;
@@ -45,7 +45,7 @@ namespace MRZReader.Dal
             {
                 return _context.Document.Include("User").ToList();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Log($"KO :Exception: {e.Message}", true);
                 throw;
