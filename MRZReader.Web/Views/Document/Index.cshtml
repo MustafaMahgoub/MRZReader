@@ -1,27 +1,55 @@
-﻿@*@using Microsoft.CodeAnalysis.CSharp.Syntax
+﻿@using Microsoft.CodeAnalysis.CSharp.Syntax
 @model IEnumerable<MRZReader.Core.Document>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Documents & Results</h1>*@
+<h1>Documents & Results</h1>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+        <th>Given Name</th>
+        <th>Last Name</th>
+        <th>DOB</th>
+        <th>Document Type</th>
+        <th>Issuing Country</th>
+        <th>Expiry Date</th>
+        <th class="text-center" colspan="2">Download</th>
+        </thead>
 
-@*<table class="table">
-    <tr>
-        <th>DocumentId</th>
-        <th>DocumentExtension</th>
-        <th>DocumentLocation</th>
-        <th>Original Document</th>
-        <th>Results</th>
-    </tr> 
-    @foreach (var doc in Model)
-    {
-        <tr>
-            <td>@doc.DocumentId</td>
-            <td>@doc.DocumentExtension</td>
-            <td>@doc.DocumentLocation</td>
-            <td>Download</td>
-            <td>Download</td>
-        </tr>
-    }
-</table>*@
+        <tbody>
+            @foreach (var doc in Model)
+            {
+                <tr>
+                    <td>@doc.User.GivenName</td>
+                    <td>@doc.User.LastName</td>
+                    <td>
+                        @if (doc.User.BirthDate.HasValue)
+                        {
+                            <p>@doc.User.BirthDate.Value.ToShortDateString()</p>
+                        }
+                        else
+                        {
+                            <strong class="text-danger">No Read</strong>
+                        }
+                    </td>
+                    <td>@doc.DocumentType</td>
+                    <td>@doc.IssuingCountry</td>
+                    <td>
+                        @if (doc.ExpiryDate.HasValue)
+                        {
+                            <p>@doc.ExpiryDate.Value.ToShortDateString()</p>
+                        }
+                        else
+                        {
+                            <strong class="text-danger">No Read</strong>
+                        }
+                    </td>
+                    <td><a asp-action="Edit" asp-route-id="@doc.TargetFilePath">Source Image</a></td>
+                    <td><a asp-action="Details" asp-route-id="@doc.SourceFilePath">Target XML</a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
