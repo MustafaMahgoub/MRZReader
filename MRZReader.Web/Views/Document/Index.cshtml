@@ -51,9 +51,8 @@
                             <strong class="text-danger">No Read</strong>
                         }
                     </td>
-                    <td><a asp-action="Edit" asp-route-id="@doc.TargetFilePath">Source Image</a></td>
-                    <td><a asp-action="Details" asp-route-id="@doc.SourceFilePath">Target XML</a></td>
-
+                    <td>@Html.ActionLink("Download Source", "Download", new { filename = doc.SourceFilePath }) </td>
+                    <td>@Html.ActionLink("Download Target", "Download", new { filename = doc.TargetFilePath }) </td>
                 </tr>
             }
             </tbody>
