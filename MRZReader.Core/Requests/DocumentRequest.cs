@@ -21,6 +21,5 @@ namespace MRZReader.Core
         //public string SourceFilePath { get; set; }
         //public string DocumentName { get; set; }
         //public string OutputFilePath { get; set; }
-
     }
 }
