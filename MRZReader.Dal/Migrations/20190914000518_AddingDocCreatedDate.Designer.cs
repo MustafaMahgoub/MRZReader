@@ -4,14 +4,16 @@ using MRZReader.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MRZReader.Dal.Migrations
 {
     [DbContext(typeof(MrzReaderDbContext))]
-    partial class MrzReaderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190914000518_AddingDocCreatedDate")]
+    partial class AddingDocCreatedDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

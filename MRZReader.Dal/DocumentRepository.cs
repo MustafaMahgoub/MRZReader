@@ -20,6 +20,9 @@ namespace MRZReader.Dal
             {
                 try
                 {
+                    request.Document.CreatedDate=DateTime.Now;
+
+
                     // Purpose of using transaction that we might want to add more things when we storing a document.
                     _context.Document.Add(request.Document);
                     _context.SaveChanges();

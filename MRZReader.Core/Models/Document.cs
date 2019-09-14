@@ -6,6 +6,7 @@ namespace MRZReader.Core
     {
         // Primary Key
         public int DocumentId { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string FileFullName { get; set; }
         public string SourceFilePath { get; set; }
         public string TargetFilePath { get; set; }

@@ -44,8 +44,6 @@ namespace MRZReader.Core
                 PopulateSourceFilePath(request);
                 UploadFile(request);
                 PopulateTargetFilePath(request);
-
-
                 ProcessMrz(request);
                 ExtractDataFromXml(request);
                 PersistSourceFileInfoInDatabase(request);
@@ -99,8 +97,6 @@ namespace MRZReader.Core
             }
             return request;
         }
-        
-
         internal DocumentRequest ProcessMrz(DocumentRequest request)
         {
             try
