@@ -30,6 +30,7 @@
     <Folder Include="Logs\" />
     <Folder Include="wwwroot\Documents\Dest\" />
     <Folder Include="wwwroot\Documents\Src\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 
