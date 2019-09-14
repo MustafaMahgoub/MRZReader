@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace MRZReader.Core
 {
@@ -14,17 +12,14 @@ namespace MRZReader.Core
         }
         public static DateTime? ConvertToDateTimeSafely(this string input)
         {
-            DateTime? res=null;
             try
             {
-                res = DateTime.ParseExact(input, "yyMMdd", CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(input, "yyMMdd", CultureInfo.InvariantCulture);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // Log
-                return res;
+                return null;
             }
-            return res;
         }
         public static int ConvertToIntSafely(this string input)
         {

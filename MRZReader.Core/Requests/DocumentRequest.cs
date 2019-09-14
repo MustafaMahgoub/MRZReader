@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Http;
 
 namespace MRZReader.Core
 {
@@ -17,10 +16,5 @@ namespace MRZReader.Core
         public bool ShouldContinue { get; set; }
         public bool IsSuccessed { get; set; }
         public Document Document { get; set; } = new Document();
-
-
-        //public string SourceFilePath { get; set; }
-        //public string DocumentName { get; set; }
-        //public string OutputFilePath { get; set; }
     }
 }

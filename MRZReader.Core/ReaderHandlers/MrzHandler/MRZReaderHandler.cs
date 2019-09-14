@@ -12,28 +12,36 @@ namespace MRZReader.Core
     {
         private readonly IDataExtractor _dataExtractor;
         private RestServiceClient _restClient;
-        private readonly ILogger<MRZReaderHandler> _logger;
+        private readonly ILogger _logger;
         private CloudOcrSettings _cloudOcrSettings;
         private readonly IDocumentRepository _documentRepository;
 
         public MRZReaderHandler(
-            ILoggerFactory loggerFactory,
+            ILogger<MRZReaderHandler> logger,
             IDocumentRepository documentRepository, 
             IOptions<CloudOcrSettings> settings,
             IDataExtractor dataExtractor)
         {
-            _logger = loggerFactory.CreateLogger<MRZReaderHandler>();
+            _logger = logger;
             _documentRepository = documentRepository;
             PopulateCloudOcrSettingsSettings(settings);
             _dataExtractor = dataExtractor;
         }
         public void PopulateCloudOcrSettingsSettings(IOptions<CloudOcrSettings> settings)
         {
-            _restClient = new RestServiceClient();
-            _restClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            _cloudOcrSettings = settings.Value;
-            _restClient.ApplicationId = _cloudOcrSettings.ApplicationId;
-            _restClient.Password = _cloudOcrSettings.Password;
+            try
+            {
+                _restClient = new RestServiceClient();
+                _restClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                _cloudOcrSettings = settings.Value;
+                _restClient.ApplicationId = _cloudOcrSettings.ApplicationId;
+                _restClient.Password = _cloudOcrSettings.Password;
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                throw;
+            }
         }
         protected override void Handle(DocumentRequest request)
         {
@@ -51,6 +59,8 @@ namespace MRZReader.Core
             catch (Exception e)
             {
                 request.IsSuccessed = false;
+                Log($"KO :Exception: {e.Message}", true);
+                throw;
             }
         }
         internal DocumentRequest PopulatFileFullName(DocumentRequest request)
@@ -104,17 +114,17 @@ namespace MRZReader.Core
                 OcrSdkTask task = _restClient.ProcessMrz(request.Document.SourceFilePath);
                 WaitAndDownload(task, request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _logger.LogTrace($"{e.Message}");
                 request.IsSuccessed = false;
+                throw;
             }
             return request;
         }
         internal DocumentRequest WaitAndDownload(OcrSdkTask task, DocumentRequest request)
         {
             task = WaitForTask(task);
-            if (task.Status == Abbyy.CloudOcrSdk.TaskStatus.Completed)
+            if (task.Status == TaskStatus.Completed)
             {
                 _restClient.DownloadResult(task, request.Document.TargetFilePath);
                 request.IsSuccessed = true;
@@ -148,6 +158,17 @@ namespace MRZReader.Core
             }
             _documentRepository.Add(request);
             return request;
+        }
+        private void Log(string msg, bool isEception = false)
+        {
+            if (isEception)
+            {
+                _logger.LogError($"[MRZ_Logs] {msg}.");
+            }
+            else
+            {
+                _logger.LogTrace($"[MRZ_Logs] {msg}.");
+            }
         }
     }
 }
