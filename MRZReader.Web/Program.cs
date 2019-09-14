@@ -16,11 +16,17 @@ namespace MRZReader.Web
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
+                logger.Debug("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                logger.Debug($"|| MRZ APP STARTED");
+                logger.Debug($"|| Deplyed on : {DateTime.Now}");
+                logger.Debug("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+
                 CreateWebHostBuilder(args).Build().Run();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 //Let nlog catch setup errors
+                logger.Error($"KO :Exception: {e.Message}");
                 throw;
             }
             finally
@@ -34,10 +40,8 @@ namespace MRZReader.Web
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.ClearProviders();
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    logging.AddNLog();
                 })
-                .UseStartup<Startup>();
+                .UseStartup<Startup>().UseNLog();
     }
 }

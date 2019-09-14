@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MRZReader.Web.ViewModels;
 
 namespace MRZReader.Web.Controllers
@@ -11,9 +13,14 @@ namespace MRZReader.Web.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger _logger;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> singInManager)
+        public AccountController(
+            ILogger<AccountController> logger, 
+            UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> singInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _signInManager = singInManager;
         }
@@ -23,32 +30,49 @@ namespace MRZReader.Web.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = new IdentityUser()
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Email,
-                    Email = model.Email
-                };
-                var res = await _userManager.CreateAsync(user, model.Password);
-                if (res.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    var user = new IdentityUser()
+                    {
+                        UserName = model.Email,
+                        Email = model.Email
+                    };
+                    var res = await _userManager.CreateAsync(user, model.Password);
+                    if (res.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        Log($"User {model.Email} registered successfully.");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    foreach (var error in res.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
-                foreach (var error in res.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                return View();
             }
-            return View();
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
         #endregion
 
@@ -56,8 +80,16 @@ namespace MRZReader.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
         #endregion
 
@@ -66,30 +98,57 @@ namespace MRZReader.Web.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                var res = await _signInManager.PasswordSignInAsync(
-                    model.Email,
-                    model.Password,
-                    model.RememberMe,
-                    false);
-
-                if (res.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var res = await _signInManager.PasswordSignInAsync(
+                        model.Email,
+                        model.Password,
+                        model.RememberMe,
+                        false);
+
+                    if (res.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    ModelState.AddModelError("", "Invalid Login");
                 }
-                ModelState.AddModelError("", "Invalid Login");
+                return View();
             }
-            return View();
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
         #endregion
+
+        private void Log(string msg, bool isEception = false)
+        {
+            if (isEception)
+            {
+                _logger.LogError($"[MRZ_Logs] {msg}.");
+            }
+            else
+            {
+                _logger.LogTrace($"[MRZ_Logs] {msg}.");
+            }
+        }
     }
 }

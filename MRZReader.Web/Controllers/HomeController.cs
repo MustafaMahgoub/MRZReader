@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace MRZReader.Web.Controllers
         private readonly ILogger _logger;
 
         public HomeController(
-            ILoggerFactory loggerFactory, 
+            ILogger<HomeController> logger, 
             IMediator mediator, 
             IHostingEnvironment hostingEnvironment, 
             IOptions<DocumentStorageSettings> documentStorageSettings, 
@@ -34,36 +33,50 @@ namespace MRZReader.Web.Controllers
             _hostingEnvironment = hostingEnvironment;
             _documentStorageSettings = documentStorageSettings.Value;
             _HttpClientFactory = httpClientFactory;
-            _logger = loggerFactory.CreateLogger(nameof(HomeController));
+            _logger = logger;
         }
-
         [AllowAnonymous]
         public IActionResult Index()
         {
-            _logger.LogInformation($"Index Called");
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error",e.Message.ToString());
+            }
         }
-
         [HttpGet]
         public IActionResult Upload()
         {
-            _logger.LogInformation($"Upload Called");
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+                return View("Error", e.Message.ToString());
+            }
         }
-
         public async Task<IActionResult> Upload(DocumentViewModel model)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    _logger.LogInformation($"ModelState.IsValid {ModelState.IsValid}");
+                var isValidModel = ModelState.IsValid;
+                Log($"File Upload- ModelState.IsValid: {isValidModel}");
 
-                    //string fileName = null;
+                if (isValidModel)
+                {
                     if (model.Document != null)
                     {
                         var _sourceFilePath = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.SourceFilePath);
                         var _outputFilePath = Path.Combine(_hostingEnvironment.WebRootPath, _documentStorageSettings.OutputFilePath);
+
+                        Log($"File Upload- SourceFilePath: {_sourceFilePath}");
+                        Log($"File Upload- OutputFilePath: {_outputFilePath}");
 
                         DocumentRequest request = new DocumentRequest()
                         {
@@ -72,13 +85,13 @@ namespace MRZReader.Web.Controllers
                             OriginalFile = model.Document,
                             ShouldContinue = true
                         };
+
                         await _mediator.Send(request);
 
                         if (request.IsSuccessed)
-                        {
-                           
                             return RedirectToAction("Success");
-                        }
+
+                        Log($"Redirecting user to Error view - Request.IsSuccessed: {request.IsSuccessed}");
                         return RedirectToAction("Error");
                     }
                 }
@@ -86,17 +99,25 @@ namespace MRZReader.Web.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogInformation($"Exception {e.Message}");
-                return RedirectToAction("Error");
+                Log($"KO :Exception: {e.Message}", true);
+                Log($"Redirecting user to Error view");
+                return View("Error", e.Message.ToString());
             }
         }
         public IActionResult Success()
         {
             return View();
         }
-        public IActionResult Error()
+        private void Log(string msg, bool isEception = false)
         {
-            return View();
+            if (isEception)
+            {
+                _logger.LogError($"[MRZ_Logs] {msg}.");
+            }
+            else
+            {
+                _logger.LogTrace($"[MRZ_Logs] {msg}.");
+            }
         }
     }
 }
