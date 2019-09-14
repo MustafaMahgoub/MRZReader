@@ -48,33 +48,21 @@ namespace MRZReader.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Document",
+                name: "User",
                 columns: table => new
                 {
-                    DocumentId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DocumentExtension = table.Column<string>(nullable: true),
-                    DocumentLocation = table.Column<string>(nullable: true),
-                    DocumentOcrId = table.Column<int>(nullable: false),
-                    ReadableLine1 = table.Column<string>(nullable: true),
-                    ReadableLine2 = table.Column<string>(nullable: true),
-                    ReadableLine3 = table.Column<string>(nullable: true),
-                    Checksum = table.Column<string>(nullable: true),
-                    ChecksumVerified = table.Column<bool>(nullable: false),
-                    DocumentType = table.Column<string>(nullable: true),
-                    DocumentSubtype = table.Column<string>(nullable: true),
-                    IssuingCountry = table.Column<string>(nullable: true),
-                    DocumentNumber = table.Column<string>(nullable: true),
-                    DocumentNumberVerified = table.Column<bool>(nullable: false),
-                    DocumentNumberCheck = table.Column<bool>(nullable: false),
-                    ExpiryDate = table.Column<DateTime>(nullable: true),
-                    ExpiryDateCheck = table.Column<bool>(nullable: false),
-                    ExpiryDateVerified = table.Column<bool>(nullable: false),
-                    Nationality = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    GivenName = table.Column<string>(nullable: true),
+                    Sex = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: true),
+                    BirthDateVerified = table.Column<bool>(nullable: false),
+                    BirthDateCheck = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Document", x => x.DocumentId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +171,45 @@ namespace MRZReader.Dal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Document",
+                columns: table => new
+                {
+                    DocumentId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    FileFullName = table.Column<string>(nullable: true),
+                    SourceFilePath = table.Column<string>(nullable: true),
+                    TargetFilePath = table.Column<string>(nullable: true),
+                    DocumentOcrId = table.Column<int>(nullable: false),
+                    ReadableLine1 = table.Column<string>(nullable: true),
+                    ReadableLine2 = table.Column<string>(nullable: true),
+                    ReadableLine3 = table.Column<string>(nullable: true),
+                    Checksum = table.Column<string>(nullable: true),
+                    ChecksumVerified = table.Column<bool>(nullable: false),
+                    DocumentType = table.Column<string>(nullable: true),
+                    DocumentSubtype = table.Column<string>(nullable: true),
+                    IssuingCountry = table.Column<string>(nullable: true),
+                    DocumentNumber = table.Column<string>(nullable: true),
+                    DocumentNumberVerified = table.Column<bool>(nullable: false),
+                    DocumentNumberCheck = table.Column<bool>(nullable: false),
+                    ExpiryDate = table.Column<DateTime>(nullable: true),
+                    ExpiryDateCheck = table.Column<bool>(nullable: false),
+                    ExpiryDateVerified = table.Column<bool>(nullable: false),
+                    Nationality = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Document", x => x.DocumentId);
+                    table.ForeignKey(
+                        name: "FK_Document_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -221,6 +248,11 @@ namespace MRZReader.Dal.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Document_UserId",
+                table: "Document",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -248,6 +280,9 @@ namespace MRZReader.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace MRZReader.Dal.Migrations
 
                     b.Property<bool>("ChecksumVerified");
 
-                    b.Property<DateTime?>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("DocumentNumber");
 

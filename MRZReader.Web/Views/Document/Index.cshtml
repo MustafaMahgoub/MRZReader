@@ -4,23 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Documents & Results</h1>
-<div class="table-responsive">
-    <table class="table">
-        <thead class="thead-dark">
-        <th>Given Name</th>
-        <th>Last Name</th>
-        <th>DOB</th>
-        <th>Document Type</th>
-        <th>Issuing Country</th>
-        <th>Expiry Date</th>
-        <th class="text-center" colspan="2">Download</th>
-        </thead>
+@if (Model.Count() >0)
+{
+    <div class="text-md-left">
+        <h3 class="display-3 text-dark">Documents & Results!</h3>
+    </div>
 
-        <tbody>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+            <th>Created Date</th>
+            <th>Given Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Document Type</th>
+            <th>Issuing Country</th>
+            <th>Expiry Date</th>
+            <th class="text-center" colspan="2">Download</th>
+            </thead>
+            <tbody>
             @foreach (var doc in Model)
             {
                 <tr>
+                    <td>@doc.CreatedDate.ToShortDateString()</td>
                     <td>@doc.User.GivenName</td>
                     <td>@doc.User.LastName</td>
                     <td>
@@ -50,6 +56,20 @@
 
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h3 class="text-danger lead"><strong>No Documents/Results to view!</strong></h3>
+        <p>
+            Upload A Document? @Html.ActionLink("Upload Document", "Upload","Home") 
+        </p>
+        <hr>
+        <p class="lead">
+            <a class="btn btn-primary btn" href="Home\Index" role="button">Continue to homespage</a>
+        </p>
+    </div>
+}

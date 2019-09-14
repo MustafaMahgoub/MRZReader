@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MRZReader.Dal.Migrations
 {
     [DbContext(typeof(MrzReaderDbContext))]
-    [Migration("20190913203314_AddingUser")]
-    partial class AddingUser
+    [Migration("20190914001223_ResetDb")]
+    partial class ResetDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,7 @@ namespace MRZReader.Dal.Migrations
 
                     b.Property<bool>("ChecksumVerified");
 
-                    b.Property<string>("DocumentExtension");
-
-                    b.Property<string>("DocumentLocation");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("DocumentNumber");
 
@@ -53,6 +51,8 @@ namespace MRZReader.Dal.Migrations
 
                     b.Property<bool>("ExpiryDateVerified");
 
+                    b.Property<string>("FileFullName");
+
                     b.Property<string>("IssuingCountry");
 
                     b.Property<string>("Nationality");
@@ -63,7 +63,15 @@ namespace MRZReader.Dal.Migrations
 
                     b.Property<string>("ReadableLine3");
 
+                    b.Property<string>("SourceFilePath");
+
+                    b.Property<string>("TargetFilePath");
+
+                    b.Property<int>("UserId");
+
                     b.HasKey("DocumentId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Document");
                 });
@@ -250,6 +258,14 @@ namespace MRZReader.Dal.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MRZReader.Core.Document", b =>
+                {
+                    b.HasOne("MRZReader.Core.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
