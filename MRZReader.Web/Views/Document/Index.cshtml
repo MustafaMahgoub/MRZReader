@@ -14,6 +14,7 @@
         <table class="table">
             <thead class="thead-dark">
             <th>Created Date</th>
+            <th>File Name</th>
             <th>Given Name</th>
             <th>Last Name</th>
             <th>DOB</th>
@@ -23,38 +24,39 @@
             <th class="text-center" colspan="2">Download</th>
             </thead>
             <tbody>
-            @foreach (var doc in Model)
-            {
-                <tr>
-                    <td>@doc.CreatedDate.ToShortDateString()</td>
-                    <td>@doc.User.GivenName</td>
-                    <td>@doc.User.LastName</td>
-                    <td>
-                        @if (doc.User.BirthDate.HasValue)
-                        {
-                            <p>@doc.User.BirthDate.Value.ToShortDateString()</p>
-                        }
-                        else
-                        {
-                            <strong class="text-danger">No Read</strong>
-                        }
-                    </td>
-                    <td>@doc.DocumentType</td>
-                    <td>@doc.IssuingCountry</td>
-                    <td>
-                        @if (doc.ExpiryDate.HasValue)
-                        {
-                            <p>@doc.ExpiryDate.Value.ToShortDateString()</p>
-                        }
-                        else
-                        {
-                            <strong class="text-danger">No Read</strong>
-                        }
-                    </td>
-                    <td>@Html.ActionLink("Download Source", "Download", new { filename = doc.SourceFilePath }) </td>
-                    <td>@Html.ActionLink("Download Target", "Download", new { filename = doc.TargetFilePath }) </td>
-                </tr>
-            }
+                @foreach (var doc in Model)
+                {
+                    <tr>
+                        <td>@doc.CreatedDate.ToShortDateString()</td>
+                        <td>@doc.FileFullName</td>
+                        <td>@doc.User.GivenName</td>
+                        <td>@doc.User.LastName</td>
+                        <td>
+                            @if (doc.User.BirthDate.HasValue)
+                            {
+                                <p>@doc.User.BirthDate.Value.ToShortDateString()</p>
+                            }
+                            else
+                            {
+                                <strong class="text-danger">No Read</strong>
+                            }
+                        </td>
+                        <td>@doc.DocumentType</td>
+                        <td>@doc.IssuingCountry</td>
+                        <td>
+                            @if (doc.ExpiryDate.HasValue)
+                            {
+                                <p>@doc.ExpiryDate.Value.ToShortDateString()</p>
+                            }
+                            else
+                            {
+                                <strong class="text-danger">No Read</strong>
+                            }
+                        </td>
+                        <td>@Html.ActionLink("Download Source", "Download", new { filename = doc.SourceFilePath }) </td>
+                        <td>@Html.ActionLink("Download Target", "Download", new { filename = doc.TargetFilePath }) </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
