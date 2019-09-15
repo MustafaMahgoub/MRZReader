@@ -38,7 +38,7 @@ namespace MRZReader.Web
             //    options.Password.RequireDigit = false;
             //});
 
-
+            
             services.AddHttpClient();
             services.AddHttpClient("MRZClient", client =>
             {
@@ -46,15 +46,17 @@ namespace MRZReader.Web
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-            services.AddDbContextPool<MrzReaderDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IDataExtractor, XmlDataExtractor>();
             services.AddMediatR(typeof(MRZReaderHandler).GetTypeInfo().Assembly);
-            services.AddOptions();
 
+            services.AddOptions();
             services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
             services.Configure<DocumentStorageSettings>(Configuration.GetSection("DocumentStorageSettings"));
+            services.Configure<CacheSettings>(Configuration.GetSection("Cache"));
+            services.AddDbContextPool<MrzReaderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

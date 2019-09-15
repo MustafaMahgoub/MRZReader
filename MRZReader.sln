@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Web", "MRZReader.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Dal", "MRZReader.Dal\MRZReader.Dal.csproj", "{F8D02D71-7E9E-48E1-A50D-4E217FF50832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.DataExtractor", "MRZReader.DataExtractor\MRZReader.DataExtractor.csproj", "{97DF360C-AA91-48C2-92B9-278965ADD924}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.DataExtractor", "MRZReader.DataExtractor\MRZReader.DataExtractor.csproj", "{97DF360C-AA91-48C2-92B9-278965ADD924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Cache", "MRZReader.Cache\MRZReader.Cache.csproj", "{C834FA80-8ED7-454A-824E-5A0391E681B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{97DF360C-AA91-48C2-92B9-278965ADD924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97DF360C-AA91-48C2-92B9-278965ADD924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97DF360C-AA91-48C2-92B9-278965ADD924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
