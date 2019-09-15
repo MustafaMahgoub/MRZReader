@@ -54,6 +54,7 @@ namespace MRZReader.Web
 
             services.AddOptions();
             services.Configure<CloudOcrSettings>(Configuration.GetSection("CloudOcrSettings"));
+            services.Configure<TruliooSettings>(Configuration.GetSection("TruliooSettings"));
             services.Configure<DocumentStorageSettings>(Configuration.GetSection("DocumentStorageSettings"));
             services.Configure<CacheSettings>(Configuration.GetSection("Cache"));
             services.AddDbContextPool<MrzReaderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MRZReaderDBConnection")));

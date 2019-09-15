@@ -1,6 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using System;
+using Microsoft.AspNetCore.Http;
 using MRZReader.Core;
+using MRZReader.Handlers;
+using MRZReader.Handlers.KYCHandlers;
+using System.Threading.Tasks;
 
 namespace MRZReader.Test
 {
