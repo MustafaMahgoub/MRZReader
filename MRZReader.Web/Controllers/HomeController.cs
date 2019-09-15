@@ -35,11 +35,33 @@ namespace MRZReader.Web.Controllers
             _HttpClientFactory = httpClientFactory;
             _logger = logger;
         }
+        internal async Task<string> TestAuthentication()
+        {
+            string responseString = String.Empty;
+            try
+            {
+                var client = _HttpClientFactory.CreateClient("TruliooClient");
+
+                var request = new HttpRequestMessage(HttpMethod.Get, "connection/v1/testauthentication");
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+            }
+            catch (Exception e)
+            {
+                Log($"KO :Exception: {e.Message}", true);
+            }
+            return responseString;
+        }
+
         [AllowAnonymous]
         public IActionResult Index()
         {
             try
             {
+                TestAuthentication();
                 return View();
             }
             catch (Exception e)

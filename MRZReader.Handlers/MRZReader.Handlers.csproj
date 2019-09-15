@@ -8,6 +8,7 @@
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="5.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
 		<PackageReference Include="Trulioo.V1.Client.NET" Version="2.1.10" />

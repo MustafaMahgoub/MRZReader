@@ -39,14 +39,20 @@ namespace MRZReader.Web
             //    options.Password.RequireDigit = false;
             //});
 
-            
-            services.AddHttpClient();
-            services.AddHttpClient("MRZClient", client =>
+
+            services.AddHttpClient("TruliooClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44381/");
-                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.BaseAddress = new Uri("https://gateway.trulioo.com/trial/");
+                client.Timeout = TimeSpan.FromSeconds(30);
+                client.DefaultRequestHeaders.Add("x-trulioo-api-key", "42f5e1dabd01c87d68dad5790b0ef3a6");
             });
+
+            //services.AddHttpClient("MRZClient", client =>
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:44381/");
+            //    client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //});
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IDataExtractor, XmlDataExtractor>();

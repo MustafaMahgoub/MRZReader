@@ -16,5 +16,10 @@ namespace MRZReader.Core
         public bool ShouldContinue { get; set; }
         public bool IsSuccessed { get; set; }
         public Document Document { get; set; } = new Document();
+
+
+
+        //Trulioo
+        public bool IsTruliooAuthenticated { get; set; }
     }
 }
