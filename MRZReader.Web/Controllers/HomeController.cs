@@ -82,8 +82,7 @@ namespace MRZReader.Web.Controllers
                         {
                             SourceFolder = _sourceFilePath,
                             DestinationFolder = _outputFilePath,
-                            OriginalFile = model.Document,
-                            ShouldContinue = true
+                            OriginalFile = model.Document
                         };
 
                         await _mediator.Send(request);

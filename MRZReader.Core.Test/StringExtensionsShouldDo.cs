@@ -6,7 +6,7 @@ using System.Xml;
 namespace MRZReader.Core.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class StringExtensionsShouldDo
     {
         [TestMethod]
         public void ConvertToBoolSafelyTest()
@@ -54,22 +54,7 @@ namespace MRZReader.Core.Test
 
 
         }
-
-        //[TestMethod]
-        //public void TestMethod1()
-        //{
-        //    var path = @"C:\PlayProjects\MRZReader\MRZReader.Core.Test\XML\passport3.xml";
-
-        //    XmlDocument doc = new XmlDocument();
-        //    doc.Load(path);
-
-        //    foreach (XmlNode node in doc.DocumentElement.ChildNodes)
-        //    {
-        //        string text = node.InnerText;
-        //        string attr = node.Attributes["type"]?.InnerText;
-        //    }
-        //}
-
+        
     }
 }
 

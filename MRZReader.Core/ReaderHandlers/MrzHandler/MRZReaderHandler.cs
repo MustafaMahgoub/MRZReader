@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using System.Net;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MRZReader.Core.Test")]
 namespace MRZReader.Core
 {
     public class MRZReaderHandler : RequestHandler<DocumentRequest>
@@ -47,6 +48,7 @@ namespace MRZReader.Core
         {
             try
             {
+                ValidateRequest(request);
                 PopulatFileFullName(request);
                 PopulateFileUniqueName(request);
                 PopulateSourceFilePath(request);
@@ -62,6 +64,23 @@ namespace MRZReader.Core
                 Log($"KO :Exception: {e.Message}", true);
                 throw;
             }
+        }
+        internal DocumentRequest ValidateRequest(DocumentRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException("DocumentRequest is invalid");
+
+            if (string.IsNullOrEmpty(request.SourceFolder))
+                throw new ArgumentException("SourceFolder is invalid");
+
+            if (string.IsNullOrEmpty(request.DestinationFolder))
+                throw new ArgumentException("DestinationFolder is invalid");
+
+            if (request.OriginalFile==null)
+                throw new ArgumentException("Document is invalid");
+
+            request.ShouldContinue = true;
+            return request;
         }
         internal DocumentRequest PopulatFileFullName(DocumentRequest request)
         {
