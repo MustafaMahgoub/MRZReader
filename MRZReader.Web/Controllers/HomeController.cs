@@ -61,7 +61,6 @@ namespace MRZReader.Web.Controllers
         {
             try
             {
-                TestAuthentication();
                 return View();
             }
             catch (Exception e)
