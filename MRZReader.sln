@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Core", "MRZReader.Core\MRZReader.Core.csproj", "{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Core.Test", "MRZReader.Core.Test\MRZReader.Core.Test.csproj", "{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Web", "MRZReader.Web\MRZReader.Web.csproj", "{5545600A-F18A-4A89-B751-6BCA7244B9C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.Dal", "MRZReader.Dal\MRZReader.Dal.csproj", "{F8D02D71-7E9E-48E1-A50D-4E217FF50832}"
@@ -14,6 +12,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MRZReader.DataExtractor", "MRZReader.DataExtractor\MRZReader.DataExtractor.csproj", "{97DF360C-AA91-48C2-92B9-278965ADD924}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Cache", "MRZReader.Cache\MRZReader.Cache.csproj", "{C834FA80-8ED7-454A-824E-5A0391E681B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Handlers", "MRZReader.Handlers\MRZReader.Handlers.csproj", "{087EA2E6-A29C-41DA-8152-30C652E6F343}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZReader.Test", "MRZReader.Test\MRZReader.Test.csproj", "{7E10426E-1451-4F01-A0DD-EF33BA4E178B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +27,6 @@ Global
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D58D2E6-05F1-4AF1-83F2-5F52E6B6107C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76D8C806-6769-4EBF-A83D-7DC9B691CE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5545600A-F18A-4A89-B751-6BCA7244B9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5545600A-F18A-4A89-B751-6BCA7244B9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5545600A-F18A-4A89-B751-6BCA7244B9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +43,14 @@ Global
 		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C834FA80-8ED7-454A-824E-5A0391E681B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{087EA2E6-A29C-41DA-8152-30C652E6F343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087EA2E6-A29C-41DA-8152-30C652E6F343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087EA2E6-A29C-41DA-8152-30C652E6F343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087EA2E6-A29C-41DA-8152-30C652E6F343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E10426E-1451-4F01-A0DD-EF33BA4E178B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E10426E-1451-4F01-A0DD-EF33BA4E178B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E10426E-1451-4F01-A0DD-EF33BA4E178B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E10426E-1451-4F01-A0DD-EF33BA4E178B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

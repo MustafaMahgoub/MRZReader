@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+	</ItemGroup>
+	
+
+	<ItemGroup>
+	  <Folder Include="Dependencies\" />
+	</ItemGroup>
+	
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MRZReader.Core\MRZReader.Core.csproj" />
+	</ItemGroup>
+	
+
+	<ItemGroup>
+	  <Reference Include="AbbyyOnlineSdk">
+	    <HintPath>Dependencies\AbbyyOnlineSdk.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>

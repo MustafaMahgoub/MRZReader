@@ -5,9 +5,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.IO;
 using System.Net;
+using MRZReader.Core;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MRZReader.Core.Test")]
-namespace MRZReader.Core
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MRZReader.Test")]
+
+namespace MRZReader.Handlers
 {
     public class MRZReaderHandler : RequestHandler<DocumentRequest>
     {
@@ -19,7 +21,7 @@ namespace MRZReader.Core
 
         public MRZReaderHandler(
             ILogger<MRZReaderHandler> logger,
-            IDocumentRepository documentRepository, 
+            IDocumentRepository documentRepository,
             IOptions<CloudOcrSettings> settings,
             IDataExtractor dataExtractor)
         {
@@ -76,7 +78,7 @@ namespace MRZReader.Core
             if (string.IsNullOrEmpty(request.DestinationFolder))
                 throw new ArgumentException("DestinationFolder is invalid");
 
-            if (request.OriginalFile==null)
+            if (request.OriginalFile == null)
                 throw new ArgumentException("Document is invalid");
 
             request.ShouldContinue = true;
